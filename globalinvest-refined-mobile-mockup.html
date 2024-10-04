@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalInvest Refined Mobile Mockup</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1c;
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #fixed-header {
+            background-color: #232323;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            border-bottom: 1px solid #333;
+        }
+        .mode {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+
+        }
+        .mode-icon {
+            font-size: 18px;
+            margin-right: 5px;
+        }
+        .current-mode {
+            font-weight: bold;
+            color: #dff7f1;
+        }
+        #date-display {
+            background-color: #1c1c1c;
+            color: #ffffff;
+            text-align: center;
+            padding: 5px;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        #chat-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .user {
+            background-color: #323232;
+            color: #ffffff;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .app {
+            background-color: #f0f0f0;
+            color: #000000;
+        }
+        .date-separator {
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+            font-family: inherit;
+        }
+        .date-change {
+            text-align: center;
+            margin: 20px auto;
+            font-weight: bold;
+            color: #a0a0a0;  /* Light grey color */
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+            display: block;
+            width: fit-content;
+        }
+    </style>
+</head>
+<body>
+    <div id="fixed-header">
+        <div class="mode current-mode"><span class="mode-icon">💬</span> Chat Mode</div>
+        <div class="mode"><span class="mode-icon">📊</span> Classic</div>
+        <div class="mode"><span class="mode-icon">🎙️</span> Voice</div>
+    </div>
+    <div id="date-display"></div>
+    <div id="chat-container"></div>
+
+    <script>
+        const conversation = [
+            { type: 'date', text: "October 10, 2024" },
+            { type: 'user', text: "Hey, what's happening in China market? What's the price of Baidu today?" },
+            { type: 'app', text: "Baidu, NASDAQ, China:\nCurrent Price: $145.00\n52-week High: $180.00, Low: $85.00" },
+            { type: 'user', text: "Okay. What's up with the Palantir?" },
+            { type: 'app', text: "Palantir Technologies, NYSE, USA\nCurrent Price: $16.25\n52-week High: $20.50, Low: $7.50" },
+            { type: 'user', text: "hmm. And Microsoft stock?" },
+            { type: 'app', text: "Microsoft, NASDAQ, USA:\nCurrent Price: $340.00\n52-week High: $365.00, Low: $250.00" },
+            { type: 'user', text: "Can you buy 10 Microsoft stocks for me?" },
+            { type: 'app', text: "Just confirming, you're buying 10 shares of Microsoft on the NASDAQ. Is that correct?" },
+            { type: 'user', text: "Yes, correct." },
+            { type: 'app', text: "Executing order...\nOrder executed at $340.00.\nOrder ID: 98765432.\nStatus: Filled.\n\nYour global bank account balance is 1 cr 20 lakh INR. Total portfolio value is now reflected to 3.2 Cr INR." },
+            { type: 'user', text: "Okay, let us sell some Nubank stock as well. How much I have?" },
+            { type: 'app', text: "You have 10 shares of Nubank. How many would you like to sell?" },
+            { type: 'user', text: "What's the price of Nubank today?" },
+            { type: 'app', text: "Nubank, NYSE, Brazil:\nCurrent Price: $10.50\n52-week High: $12.00, Low: $8.00" },
+            { type: 'user', text: "Sell 50%, maybe 5 shares." },
+            { type: 'app', text: "Just confirming, you're selling 5 shares of Nubank on the NYSE. Is that correct?" },
+            { type: 'user', text: "Sure" },
+            { type: 'app', text: "Executing order...\nOrder executed at $10.50.\nOrder ID: 12345678.\nStatus: Filled.\n\nYour global bank account balance is 1.3 Cr INR. Total portfolio value has been 3.1 CR INR" },
+            { type: 'date', text: "October 11, 2024" },
+            { type: 'user', text: "Hey how are things today ! what's the price of ASML ?" },
+            { type: 'app', text: " Your overall portfolio is 2% up today in comparison with yesterday coz of positive movement in China Market" },
+            { type: 'app', text: "ASML Holding, NASDAQ, Netherlands:\nCurrent Price: €635.20\n52-week High: €777.50, Low: €472.20" },
+            { type: 'user', text: "What about Adyen?" },
+            { type: 'app', text: "Adyen, AMS, Netherlands:\nCurrent Price: €705.80\n52-week High: €1,590.00, Low: €675.00" },
+            { type: 'user', text: "And GRAB?" },
+            { type: 'app', text: "Grab Holdings, NASDAQ, Singapore:\nCurrent Price: $3.35\n52-week High: $4.03, Low: $2.19" },
+            { type: 'user', text: "Can you buy 10 ASML stocks for me?" },
+            { type: 'app', text: "Just confirming, you're buying 10 shares of ASML on the NASDAQ. Is that correct?" },
+            { type: 'user', text: "Yes, correct." },
+            { type: 'app', text: "Executing order...\nOrder executed at €635.20 per share.\nTotal cost: €6,352.00\nOrder ID: 98765432\nStatus: Filled\n\nYour global bank account balance is 1.2 Cr INR and portfolio value have been updated 3.3 cr INR." },
+            { type: 'user', text: "Can we change the default currency to USD?" },
+            { type: 'app', text: "Certainly! I've updated your default currency to USD. All future transactions and balance displays will be in USD unless specified otherwise, ok" },
+            { type: 'user', text: "Cool. Now Suggest some trades for tax harvesting." },
+            { type: 'app', text: "Based on your portfolio, here are some tax harvesting suggestions:\n\n1. Sell 50 shares of GRAB at $3.35 (currently at a loss)\n2. Sell 20 shares of Adyen at $755.21 (€705.80, currently at a loss)\n3. Hold ASML as it's currently in a gain position\n\nWould you like to execute any of these trades for tax harvesting purposes?" },
+            { type: 'user', text: "Yes, let's sell the GRAB shares." },
+            { type: 'app', text: "Alright, I'll initiate the sale of 50 GRAB shares for tax harvesting.\n\nExecuting order...\nOrder executed at $3.35 per share.\nTotal sale: $167.50\nOrder ID: 87654321\nStatus: Filled" },
+            { type: 'user', text: "What's my current portfolio balance now?" },
+            { type: 'app', text: "Your current portfolio summary:\n\nTotal portfolio value: USD 158,750\nCash balance: USD 15,000\n\nClick to look at full Portfolio" }
+        ];
+
+        const chatContainer = document.getElementById('chat-container');
+        const dateDisplay = document.getElementById('date-display');
+
+        function playMessageSound() {
+            const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGM0/DSfy8GHm7A7+OZSA0PVqzn77BdGAg+ltzzx3QpBSl+zPLaizsIGGS57OihUBELTKXh8bllHgU2jdXzzn0vBSF6yu/glEILFFy16uyqWBMJRJzf8sFuJAUuhNDy1YIxBhxqvu7mnEoODlOq5O+yYBoIPJPa88p2KwUme8rx3I4+CRZiturqpVITC0mi4PK8aB8GM4nU8tGAMQYfdsny4pZEDBNातरंगi06+zrWxQJQpre8sNxJgUsgc/y14QyBxtou+3oNw8MUajj8LRlHQY5ktfyzHosBSV4yPDckEEKFF+06eupVhQKR6Dg8r5sIQUyi9PwrBgGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+            audio.play();
+        }
+
+        function typeMessage(element, text, index = 0) {
+            if (index < text.length) {
+                element.innerHTML += text.charAt(index);
+                setTimeout(() => typeMessage(element, text, index + 1), 50);
+            } else {
+                element.style.opacity = '1';
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                if (element.classList.contains('user')) {
+                    playMessageSound();
+                }
+                setTimeout(nextMessage, 1000 + text.length * 10);
+            }
+        }
+
+        function addMessage(message) {
+            if (message.type === 'date') {
+                dateDisplay.textContent = message.text;
+                
+                // Add "Today" indicator for date change
+                const dateChangeDiv = document.createElement('div');
+                dateChangeDiv.className = 'date-change';
+                dateChangeDiv.textContent = 'Today';
+                chatContainer.appendChild(dateChangeDiv);
+                
+                setTimeout(nextMessage, 1000);
+            } else {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${message.type}`;
+                chatContainer.appendChild(messageDiv);
+
+                if (message.type === 'user') {
+                    typeMessage(messageDiv, message.text);
+                } else {
+                    messageDiv.innerHTML = `<pre>${message.text}</pre>`;
+                    setTimeout(() => {
+                        messageDiv.style.opacity = '1';
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                        setTimeout(nextMessage, 1000 + message.text.length * 10);
+                    }, 500);
+                }
+            }
+        }
+
+        let currentIndex = 0;
+        function nextMessage() {
+            if (currentIndex < conversation.length) {
+                addMessage(conversation[currentIndex]);
+                currentIndex++;
+            }
+        }
+
+        nextMessage();
+    </script>
+</body>
+</html>
