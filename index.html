@@ -16,7 +16,7 @@
             flex-direction: column;
         }
         #fixed-header {
-            background-color: #232323;
+            background-color: #f6f3f3;
             padding: 10px;
             display: flex;
             justify-content: space-between;
@@ -28,15 +28,16 @@
             display: flex;
             align-items: center;
             margin-right: 10px;
+            color: #080a0a;
         }
         .mode-icon {
             font-size: 18px;
             margin-right: 5px;
         }
         .current-mode {
-            font-weight: bold;
-            color: #dff7f1;
-        }
+    font-weight: bold !important;
+    color: #080a0a;
+}
         #date-display {
             background-color: #1c1c1c;
             color: #ffffff;
@@ -100,26 +101,61 @@
             left: 50%;
             transform: translateX(-50%);
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: #808080;  /* This is a medium grey */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             z-index: 1000;
         }
+        body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+#fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+.bg-gray-200 {
+    background-color: #edf2f7;
+}
+.rounded {
+    border-radius: 0.25rem;
+}
+.px-3 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+.py-1 {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+.border {
+    border-width: 1px;
+    border-style: solid;
+}
+.border-gray-300 {
+    border-color: #e2e8f0;
+}
     </style>
 </head>
 <body>
-    <div id="fixed-header">
-        <div class="mode current-mode"><span class="mode-icon">💬</span> Chat Mode</div>
-        <div class="mode" onclick="openClassicMode()">
-            <span class="mode-icon">📊</span> Classic
-          </div>
-        <div class="mode"><span class="mode-icon">🎙️</span> Voice</div>
+    <div id="fixed-header" class="bg-white text-gray-800 p-4 flex justify-between items-center">
+        <button class="mode current-mode px-3 py-1 bg-gray-200 rounded cursor-pointer border border-gray-300">
+            <span class="mode-icon">💬</span> Chat Mode
+        </button>
+        <button onclick="openClassicMode()" class="px-3 py-1 bg-gray-200 rounded cursor-pointer border border-gray-300"><span class="mode-icon">📊</span> Classic</button>
+        <button class="px-3 py-1 bg-gray-200 rounded cursor-pointer border border-gray-300"><span class="mode-icon">🎙️</span> Voice</button>
     </div>
     <div id="date-display"></div>
     <div id="chat-container"></div>
-    <button id="startButton">Select your preferred mode to start</button>
+    <button id="startButton">Click to continue in chat mode</button>
 
     <script>
         const conversation = [
@@ -254,7 +290,7 @@
             nextMessage();
         });
     </script>
-     <script>
+    <script>
         function openClassicMode() {
           window.location.href = 'globalinvest-classic-mode-extended final.html';
         }
