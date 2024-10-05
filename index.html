@@ -112,7 +112,9 @@
 <body>
     <div id="fixed-header">
         <div class="mode current-mode"><span class="mode-icon">💬</span> Chat Mode</div>
-        <div class="mode"><span class="mode-icon">📊</span> Classic</div>
+        <div class="mode" onclick="openClassicMode()">
+            <span class="mode-icon">📊</span> Classic
+          </div>
         <div class="mode"><span class="mode-icon">🎙️</span> Voice</div>
     </div>
     <div id="date-display"></div>
@@ -252,5 +254,10 @@
             nextMessage();
         });
     </script>
+     <script>
+        function openClassicMode() {
+          window.location.href = 'globalinvest-classic-mode-extended final.html';
+        }
+        </script>
 </body>
 </html>
