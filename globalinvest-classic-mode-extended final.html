@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalInvest - Classic Mode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body class="bg-gray-900 text-white">
+    <div id="app">Loading...</div>
+    
+    <script type="text/babel">
+        const Header = () => (
+            <header className="bg-white text-gray-800 p-4 flex justify-between items-center">
+                <button onClick={() => window.location.href = 'index.html'} className="px-3 py-1 bg-gray-200 rounded">💬 Chat</button>
+                <button className="px-3 py-1 bg-gray-200 rounded font-bold">📊 Classic</button>
+                <button className="px-3 py-1 bg-gray-200 rounded">🎙️ Voice</button>
+            </header>
+        );
+
+        const HorizontalBarChart = ({ data }) => {
+            const totalValue = data.reduce((sum, item) => sum + item.value, 0);
+
+            return (
+                <div className="space-y-2">
+                    {data.map((item, index) => (
+                        <div key={index} className="flex items-center">
+                            <div className="w-24 text-sm">{item.country}</div>
+                            <div className="flex-grow bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div 
+                                    className="h-full rounded-full bg-sky-500" 
+                                    style={{width: `${(item.value / totalValue) * 100}%`}}
+                                ></div>
+                            </div>
+                            <div className="w-16 text-right text-sm ml-2">{item.value}%</div>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        const PortfolioScreen = () => {
+            const allocationData = [
+                { country: 'USA', value: 50 },
+                { country: 'China', value: 20 },
+                { country: 'EU', value: 15 },
+                { country: 'Japan', value: 10 },
+                { country: 'Others', value: 5 },
+            ];
+
+            return (
+                <div className="bg-gray-900 text-white min-h-screen">
+                    <Header />
+                    <div className="p-4">
+                        <h1 className="text-2xl font-bold mb-4">My Global Portfolio</h1>
+                        
+                        {/* Total Value and Performance */}
+                        <div className="bg-gray-800 rounded-lg p-4 mb-4">
+                            <h2 className="text-xl font-semibold mb-2">₹15,75,000</h2>
+                            <div className="flex justify-between">
+                                <span className="text-green-400">+₹12,500 (0.8%) Today</span>
+                                <span className="text-blue-400">+₹1,75,000 (12.5%) All Time</span>
+                            </div>
+                        </div>
+                        
+                        {/* Asset Allocation */}
+                        <div className="bg-gray-800 rounded-lg p-4 mb-4">
+                            <h2 className="text-lg font-semibold mb-2">Global Allocation</h2>
+                            <HorizontalBarChart data={allocationData} />
+                        </div>
+                        
+                        {/* Top Holdings */}
+                        <div className="bg-gray-800 rounded-lg p-4 mb-4">
+                            <h2 className="text-lg font-semibold mb-2">Top Holdings</h2>
+                            <ul>
+                                <li className="flex justify-between items-center mb-2">
+                                    <span>AAPL (USA)</span>
+                                    <span className="text-green-400">$145.85 (+1.2%)</span>
+                                </li>
+                                <li className="flex justify-between items-center mb-2">
+                                    <span>BABA (China)</span>
+                                    <span className="text-red-400">$210.30 (-0.5%)</span>
+                                </li>
+                                <li className="flex justify-between items-center">
+                                    <span>ASML (EU)</span>
+                                    <span className="text-green-400">€545.20 (+0.8%)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        {/* Quick Access Buttons */}
+                        <div className="grid grid-cols-2 gap-4 mb-4">
+                            <button className="bg-indigo-600 p-2 rounded-lg flex items-center justify-center">
+                                Global Markets
+                            </button>
+                            <button className="bg-indigo-600 p-2 rounded-lg flex items-center justify-center">
+                                Currency Rates
+                            </button>
+                            <button className="bg-indigo-600 p-2 rounded-lg flex items-center justify-center">
+                                Performance
+                            </button>
+                            <button className="bg-indigo-600 p-2 rounded-lg flex items-center justify-center">
+                                Market Events
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<PortfolioScreen />, document.getElementById('app'));
+    </script>
+</body>
+</html>
