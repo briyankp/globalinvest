@@ -13,13 +13,13 @@
     <div id="app">Loading...</div>
     
     <script type="text/babel">
-        const Header = () => (
-            <header className="bg-white text-gray-800 p-4 flex justify-between items-center">
-                <button onClick={() => window.location.href = 'index.html'} className="px-3 py-1 bg-gray-200 rounded">💬 Chat</button>
-                <button className="px-3 py-1 bg-gray-200 rounded font-bold">📊 Classic</button>
-                <button className="px-3 py-1 bg-gray-200 rounded">🎙️ Voice</button>
-            </header>
-        );
+      const Header = () => (
+        <header className="bg-white text-gray-700 p-4 flex justify-between items-center w-full">
+            <button onClick={() => window.location.href = 'index.html'} className="px-3 py-1 bg-gray-200 rounded">💬 Chat</button>
+            <button className="px-3 py-1 bg-gray-200 rounded font-bold">📊 Classic Mode</button>
+            <button className="px-3 py-1 bg-gray-200 rounded">🎙️ Voice</button>
+        </header>
+    );
 
         const HorizontalBarChart = ({ data }) => {
             const totalValue = data.reduce((sum, item) => sum + item.value, 0);
